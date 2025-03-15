@@ -1,0 +1,17 @@
+@import 'variables';
+
+button {
+  width: 200px;
+  padding: 12px;
+  background-color: $primary-color;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+}
