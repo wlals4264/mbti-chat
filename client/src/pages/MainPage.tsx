@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { mbti } from '../data/mbti';
+import ChatRoom from '../components/ChatRoom';
 
-function MainPage() {
+const MainPage: React.FC = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [selectedMbti, setSelectedMbti] = useState('ENFP');
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
-  const [message, setMessage] = useState('');
+  const [selectedMbti, setSelectedMbti] = useState<string>('');
+  const [chatOpen, setChatOpen] = useState<boolean>(false);
 
+  // 웹소켓 연결
   const connectWebSocket = () => {
     if (ws) {
       alert('이미 연결되어 있습니다.');
@@ -17,12 +17,8 @@ function MainPage() {
     const socket = new WebSocket('ws://localhost:5001');
 
     socket.onopen = () => {
-      console.log('WebSocket 연결');
-      socket.send(`${selectedMbti} 님이 입장했습니다.`);
-    };
-
-    socket.onmessage = (event) => {
-      setMessages((prev) => [...prev, event.data]);
+      console.log('WebSocket 연결됨');
+      socket.send(`${selectedMbti}님이 입장했습니다.`);
     };
 
     socket.onclose = () => {
@@ -35,15 +31,11 @@ function MainPage() {
     setChatOpen(true);
   };
 
-  const sendMessage = () => {
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      alert('서버와 연결되지 않았습니다.');
-      return;
-    }
-
-    if (message.trim() !== '') {
-      ws.send(`${selectedMbti}: ${message}`);
-      setMessage('');
+  // 채팅방 종료
+  // TODO: 조건 설정
+  const closeChat = () => {
+    if (ws) {
+      ws.close();
     }
   };
 
@@ -66,25 +58,10 @@ function MainPage() {
           </button>
         </>
       ) : (
-        <div className="chat-container">
-          <div className="chat-box">
-            {messages.map((msg, index) => (
-              <p key={index}>{msg}</p>
-            ))}
-          </div>
-          <div className="chat-input">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="메시지를 입력하세요"
-            />
-            <button onClick={sendMessage}>전송</button>
-          </div>
-        </div>
+        <ChatRoom ws={ws} onClose={closeChat} selectedMbti={selectedMbti} />
       )}
     </main>
   );
-}
+};
 
 export default MainPage;
