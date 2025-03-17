@@ -4,7 +4,7 @@ import ChatRoom from '../components/ChatRoom';
 
 const MainPage: React.FC = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [selectedMbti, setSelectedMbti] = useState<string>('');
+  const [selectedMbti, setSelectedMbti] = useState<string>('ENFP');
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
   // 웹소켓 연결
