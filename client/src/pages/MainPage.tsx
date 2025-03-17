@@ -4,13 +4,18 @@ import ChatRoom from '../components/ChatRoom';
 
 const MainPage: React.FC = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [selectedMbti, setSelectedMbti] = useState<string>('ENFP');
+  const [selectedMbti, setSelectedMbti] = useState<string>('');
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
   // 웹소켓 연결
   const connectWebSocket = () => {
     if (ws) {
       alert('이미 연결되어 있습니다.');
+      return;
+    }
+
+    if (selectedMbti === '') {
+      alert('MBTI를 선택하세요.');
       return;
     }
 
@@ -47,7 +52,7 @@ const MainPage: React.FC = () => {
         <>
           <p>✨ 당신의 MBTI를 선택해 주세요 ✨</p>
           <select className="select" value={selectedMbti} onChange={(e) => setSelectedMbti(e.target.value)}>
-            {mbti.map((value) => (
+            {['', ...mbti].map((value) => (
               <option key={value} value={value}>
                 {value}
               </option>
