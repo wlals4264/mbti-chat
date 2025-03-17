@@ -1,17 +1,18 @@
-@import 'variables';
+@use 'sass:color';
+@use 'variables' as v;
 
 input {
   width: 180px;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: $border-radius;
+  border-radius: v.$border-radius;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s;
 
   &:focus {
-    border-color: $primary-color;
+    border-color: v.$primary-color;
   }
 }
 
@@ -20,21 +21,21 @@ input {
   margin-bottom: 20px;
   padding: 10px;
   font-size: 1rem;
-  border: 2px solid $primary-color;
-  border-radius: $border-radius;
+  border: 2px solid v.$primary-color;
+  border-radius: v.$border-radius;
   background-color: white;
-  color: $text-color;
+  color: v.$text-color;
   cursor: pointer;
   outline: none;
   transition: all 0.3s ease;
   appearance: none;
 
   &:hover {
-    border-color: darken($primary-color, 10%);
+    border-color: color.scale(v.$primary-color, $lightness: 10%);
   }
 
   &:focus {
-    border-color: darken($primary-color, 20%);
+    border-color: color.scale(v.$primary-color, $lightness: 20%);
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
 }

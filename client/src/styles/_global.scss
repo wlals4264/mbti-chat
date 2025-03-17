@@ -1,8 +1,8 @@
-@import 'variables';
+@use 'variables' as v;
 
 .container {
-  font-family: $font-family;
-  background-color: $bg-color;
+  font-family: v.$font-family;
+  background-color: v.$bg-color;
   margin: 0;
   padding: 0;
   display: flex;
@@ -14,13 +14,13 @@
 
 h1 {
   font-size: 2.5rem;
-  color: $primary-color;
+  color: v.$primary-color;
   margin-bottom: 20px;
 }
 
 p {
   font-size: 1rem;
-  color: $text-color;
+  color: v.$text-color;
   font-weight: 900;
   text-align: center;
 }

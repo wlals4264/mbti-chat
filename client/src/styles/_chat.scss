@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as v;
 
 .chat-container {
   width: 100%;
@@ -6,8 +6,8 @@
   height: 500px;
   display: flex;
   flex-direction: column;
-  border: 2px solid $primary-color;
-  border-radius: $border-radius;
+  border: 2px solid v.$primary-color;
+  border-radius: v.$border-radius;
   overflow: hidden;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@
 .chat-box p {
   padding: 8px;
   // background: $primary-color;
-  color: $text-color;
+  color: v.$text-color;
   border-radius: 5px;
   margin-bottom: 5px;
   width: 300px;
@@ -32,7 +32,7 @@
 
 .chat-input {
   display: flex;
-  border-top: 2px solid $primary-color;
+  border-top: 2px solid v.$primary-color;
 
   input {
     flex: 1;
@@ -44,7 +44,7 @@
   button {
     flex-basis: 20%;
     padding: 10px 15px;
-    background: $primary-color;
+    background: v.$primary-color;
     color: white;
     border: none;
     cursor: pointer;
