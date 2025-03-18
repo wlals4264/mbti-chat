@@ -4,9 +4,10 @@ interface ChatRoomProps {
   ws: WebSocket | null;
   onClose: () => void;
   selectedMbti: string;
+  roomId: string | null;
 }
 
-const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti }) => {
+const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
 
@@ -15,7 +16,14 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti }) => {
     if (!ws) return;
 
     const handleMessage = (event: MessageEvent) => {
-      setMessages((prev) => [...prev, event.data]);
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'message') {
+        setMessages((prev) => [...prev, data.text]);
+      } else if (data.type === 'exit') {
+        alert('상대방이 채팅을 종료했습니다.');
+        onClose();
+      }
     };
 
     ws.addEventListener('message', handleMessage);
@@ -32,8 +40,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti }) => {
       return;
     }
 
-    if (message.trim() !== '') {
-      ws.send(`${selectedMbti}: ${message}`);
+    if (message.trim() !== '' && roomId) {
+      ws.send(JSON.stringify({ type: 'message', text: `${selectedMbti}: ${message}`, roomId }));
       setMessage('');
     }
   };

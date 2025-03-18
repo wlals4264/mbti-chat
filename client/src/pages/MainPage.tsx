@@ -6,8 +6,9 @@ const MainPage: React.FC = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [selectedMbti, setSelectedMbti] = useState<string>('');
   const [chatOpen, setChatOpen] = useState<boolean>(false);
+  const [roomId, setRoomId] = useState<string | null>(null);
 
-  // 웹소켓 연결
+  // 웹소켓 연결 및 랜덤 매칭 요청
   const connectWebSocket = () => {
     if (ws) {
       alert('이미 연결되어 있습니다.');
@@ -22,24 +23,38 @@ const MainPage: React.FC = () => {
     const socket = new WebSocket('ws://localhost:5001');
 
     socket.onopen = () => {
-      console.log('WebSocket 연결됨');
-      socket.send(`${selectedMbti}님이 입장했습니다.`);
+      console.log('✅ WebSocket 연결됨');
+
+      // 서버에 랜덤 매칭 요청
+      socket.send(JSON.stringify({ type: 'join' }));
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'waiting') {
+        console.log('⏳ 대기열에 추가됨...');
+      } else if (data.type === 'matched') {
+        console.log(`🎉 매칭 완료! roomId: ${data.roomId}`);
+        setRoomId(data.roomId);
+        setChatOpen(true);
+      }
     };
 
     socket.onclose = () => {
-      console.log('WebSocket 연결 종료');
+      console.log('🚪 WebSocket 연결 종료');
       setWs(null);
       setChatOpen(false);
+      setRoomId(null);
     };
 
     setWs(socket);
-    setChatOpen(true);
   };
 
   // 채팅방 종료
-  // TODO: 조건 설정
   const closeChat = () => {
     if (ws) {
+      ws.send(JSON.stringify({ type: 'exit', roomId }));
       ws.close();
     }
   };
@@ -50,7 +65,7 @@ const MainPage: React.FC = () => {
 
       {!chatOpen ? (
         <>
-          <p>✨ 당신의 MBTI를 선택해 주세요 ✨</p>
+          <p>✨ MBTI를 선택해 주세요 ✨</p>
           <select className="select" value={selectedMbti} onChange={(e) => setSelectedMbti(e.target.value)}>
             {['', ...mbti].map((value) => (
               <option key={value} value={value}>
@@ -63,7 +78,7 @@ const MainPage: React.FC = () => {
           </button>
         </>
       ) : (
-        <ChatRoom ws={ws} onClose={closeChat} selectedMbti={selectedMbti} />
+        <ChatRoom ws={ws} onClose={closeChat} selectedMbti={selectedMbti} roomId={roomId} />
       )}
     </main>
   );
