@@ -9,9 +9,22 @@ button {
   border: none;
   border-radius: v.$border-radius;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover {
     background-color: v.$secondary-color;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: v.$primary-color;
+
+    &:hover {
+      background-color: v.$primary-color;
+    }
   }
 }
