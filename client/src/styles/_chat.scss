@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'buttons' as b;
 
 .chat-container {
   width: 100%;
@@ -30,6 +31,7 @@
 
 .chat-input {
   display: flex;
+  height: 10%;
   border-top: 2px solid v.$primary-color;
 
   input {
@@ -37,15 +39,18 @@
     padding: 10px;
     border: none;
     outline: none;
+    background-color: inherit;
   }
 
   button {
+    @include b.button-styles;
     flex-basis: 20%;
-    padding: 10px 15px;
-    background: v.$primary-color;
-    color: white;
-    border: none;
-    cursor: pointer;
     border-radius: 0;
   }
+}
+
+.exit-button {
+  @include b.button-styles;
+  width: 100%;
+  border-radius: 0;
 }

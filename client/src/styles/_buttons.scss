@@ -1,7 +1,6 @@
 @use 'variables' as v;
 
-button {
-  width: 200px;
+@mixin button-styles {
   padding: 12px;
   background-color: v.$primary-color;
   color: white;
@@ -27,4 +26,8 @@ button {
       background-color: v.$primary-color;
     }
   }
+}
+button {
+  width: 200px;
+  @include button-styles;
 }
