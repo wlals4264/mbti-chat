@@ -1,5 +1,9 @@
 @use 'variables' as v;
 
+body {
+  margin: 0;
+}
+
 .container {
   font-family: v.$font-family;
   background-color: v.$bg-color;
