@@ -55,6 +55,21 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const handleClick = () => {
+    sendMessage();
+  };
+
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -77,9 +92,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="메시지를 입력하세요"
           />
-          <button onClick={sendMessage}>전송</button>
+          <button onClick={handleClick}>전송</button>
         </div>
       </div>
       <button onClick={onClose} className="exit-button">
