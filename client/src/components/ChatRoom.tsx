@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface ChatRoomProps {
   ws: WebSocket | null;
@@ -10,6 +10,8 @@ interface ChatRoomProps {
 const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }) => {
   const [messages, setMessages] = useState<{ mbti: string; text: string; isOwnMessage: boolean }[]>([]);
   const [message, setMessage] = useState<string>('');
+
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
   // 웹소켓 메시지 수신
   useEffect(() => {
@@ -53,10 +55,16 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }
     }
   };
 
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <>
       <div className="chat-container">
-        <div className="chat-box">
+        <div className="chat-box" ref={chatBoxRef}>
           {messages.map((msg, index) => (
             <li key={index} className={msg.isOwnMessage ? 'my-message' : 'opponent-message'}>
               <span>{msg.mbti}</span>
