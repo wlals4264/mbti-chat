@@ -56,9 +56,7 @@ wss.on('connection', (ws: ExtendedWebSocket) => {
       const room = rooms.get(ws.roomId!);
       if (room) {
         room.forEach((client) => {
-          if (client !== ws) {
-            client.send(JSON.stringify({ type: 'message', text: data.text }));
-          }
+          client.send(JSON.stringify({ type: 'message', text: data.text }));
         });
       }
     }
@@ -66,6 +64,8 @@ wss.on('connection', (ws: ExtendedWebSocket) => {
 
   // 클라이언트가 연결을 종료할 때 실행되는 이벤트 핸들러
   ws.on('close', () => {
+    console.log(`❌ 클라이언트 연결 종료 (roomId: ${ws.roomId})`);
+
     // 사용자가 방에 속해 있는 경우
     if (ws.roomId) {
       const room = rooms.get(ws.roomId);
