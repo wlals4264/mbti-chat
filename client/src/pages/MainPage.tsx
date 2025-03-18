@@ -72,7 +72,10 @@ const MainPage: React.FC = () => {
         <>
           <p>✨ MBTI를 선택해 주세요 ✨</p>
           <select className="select" value={selectedMbti} onChange={(e) => setSelectedMbti(e.target.value)}>
-            {['', ...mbti].map((value) => (
+            <option value="" disabled>
+              클릭해서 MBTI 선택
+            </option>
+            {mbti.map((value) => (
               <option key={value} value={value}>
                 {value}
               </option>
