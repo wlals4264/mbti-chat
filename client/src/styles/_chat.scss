@@ -1,6 +1,22 @@
 @use 'variables' as v;
 @use 'buttons' as b;
 
+@mixin messageMeta() {
+  font-size: 0.95rem;
+  padding-right: 2px;
+  margin-bottom: 4px;
+}
+
+@mixin messageStyle($bg-color, $text-color) {
+  font-weight: normal;
+  color: $text-color;
+  margin: 0;
+  background-color: $bg-color;
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+}
+
 .chat-container {
   width: 100%;
   max-width: 400px;
@@ -15,18 +31,60 @@
 }
 
 .chat-box {
+  width: fit-content;
+  margin: 10px 6px;
+  padding: 2px;
   flex: 1;
-  padding: 10px;
   overflow-y: auto;
   background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.chat-box p {
-  padding: 8px;
-  color: v.$text-color;
+.chat-box li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  max-width: 45%;
   border-radius: 5px;
-  margin-bottom: 5px;
-  width: 300px;
+  padding: 10px;
+}
+
+.my-message {
+  align-self: flex-end;
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  span {
+    @include messageMeta();
+    padding-right: 2px;
+  }
+
+  p {
+    @include messageStyle(v.$primary-color, white);
+  }
+}
+
+.opponent-message {
+  align-self: flex-start;
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+
+  span {
+    @include messageMeta();
+  }
+
+  p {
+    @include messageStyle(#ccc, v.$text-color);
+  }
 }
 
 .chat-input {
@@ -51,6 +109,8 @@
 
 .exit-button {
   @include b.button-styles;
+  margin-top: 10px;
   width: 100%;
-  border-radius: 0;
+  max-width: 406px;
+  border-radius: v.$border-radius;
 }

@@ -56,7 +56,13 @@ wss.on('connection', (ws: ExtendedWebSocket) => {
       const room = rooms.get(ws.roomId!);
       if (room) {
         room.forEach((client) => {
-          client.send(JSON.stringify({ type: 'message', text: data.text }));
+          const messageToSend = {
+            type: 'message',
+            text: data.text,
+            mbti: data.mbti,
+            isOwnMessage: client === ws,
+          };
+          client.send(JSON.stringify(messageToSend));
         });
       }
     }
