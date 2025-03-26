@@ -15,7 +15,7 @@ const useWebSocketController = (): UseWebSocketController => {
   const [waiting, setWaiting] = useState<boolean>(false);
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
-  // 웹소켓 연결 및 랜덤 매칭 요청
+  // 웹소켓 연결 및 매칭 요청
   const connectWebSocket = useCallback(
     (selectedMbti: string) => {
       if (ws) {
