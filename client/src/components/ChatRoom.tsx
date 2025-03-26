@@ -4,10 +4,10 @@ interface ChatRoomProps {
   ws: WebSocket | null;
   onClose: () => void;
   selectedMbti: string;
-  roomId: string | null;
+  sendMessage: (message: string, selectedMbti: string) => void;
 }
 
-const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }) => {
+const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, sendMessage }) => {
   const [messages, setMessages] = useState<{ mbti: string; text: string; isOwnMessage: boolean }[]>([]);
   const [message, setMessage] = useState<string>('');
 
@@ -35,26 +35,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }
     };
   }, [ws]);
 
-  // 메시지 전송
-  const sendMessage = () => {
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      alert('서버와 연결되지 않았습니다.');
-      return;
-    }
-
-    if (message.trim() !== '' && roomId) {
-      const messageData = {
-        type: 'message',
-        mbti: selectedMbti,
-        text: message,
-        roomId,
-        isOwnMessage: true,
-      };
-      ws.send(JSON.stringify(messageData));
-      setMessage('');
-    }
-  };
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (event.nativeEvent.isComposing) {
       return;
@@ -62,12 +42,14 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, roomId }
 
     if (event.key === 'Enter') {
       event.preventDefault();
-      sendMessage();
+      sendMessage(message, selectedMbti);
+      setMessage('');
     }
   };
 
   const handleClick = () => {
-    sendMessage();
+    sendMessage(message, selectedMbti);
+    setMessage('');
   };
 
   useEffect(() => {
