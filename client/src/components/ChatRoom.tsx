@@ -16,6 +16,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, sendMess
   useEffect(() => {
     if (!ws) return;
 
+    if (messages) {
+      console.log(messages);
+    }
+
     const handleMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data);
 

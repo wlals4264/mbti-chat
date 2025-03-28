@@ -46,6 +46,9 @@ wss.on('connection', (ws: ExtendedWebSocket) => {
           isOwnMessage: false,
         });
 
+        ws.send(welcomeMessage);
+        pair.send(welcomeMessage);
+
         // 1시간 후 자동으로 방 삭제
         setTimeout(() => {
           if (rooms.has(roomId)) {
