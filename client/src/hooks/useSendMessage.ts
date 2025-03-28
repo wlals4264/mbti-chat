@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-export default function useSendMessage(ws: WebSocket, roomId: string) {
+export default function useSendMessage(ws: WebSocket | null, roomId: string | null) {
   return useCallback(
     (message: string, selectedMbti: string) => {
       if (!ws || ws.readyState !== WebSocket.OPEN) {

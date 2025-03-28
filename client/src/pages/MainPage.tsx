@@ -3,10 +3,22 @@ import { mbti } from '../data/mbti';
 import ChatRoom from '../components/ChatRoom';
 import Spinner from '../components/Spinner';
 import useWebSocketController from '../hooks/useWebSocketController';
+import useSendMessage from '../hooks/useSendMessage';
+import { useCloseChat } from '../hooks/useCloseChat';
+import { useValidateMbti } from '../hooks/useValidateMbti';
 
 const MainPage: React.FC = () => {
-  const { ws, waiting, chatOpen, connectWebSocket, closeChat, sendMessage } = useWebSocketController();
+  const { ws, roomId, waiting, chatOpen, connectWebSocket } = useWebSocketController();
+  const closeChat = useCloseChat(ws, roomId);
+  const sendMessage = useSendMessage(ws, roomId);
+  const validateMbti = useValidateMbti();
   const [selectedMbti, setSelectedMbti] = useState<string>('');
+
+  const handleConnect = () => {
+    if (validateMbti(selectedMbti)) {
+      connectWebSocket();
+    }
+  };
 
   return (
     <main className="container">
@@ -25,7 +37,7 @@ const MainPage: React.FC = () => {
               </option>
             ))}
           </select>
-          <button type="button" onClick={() => connectWebSocket(selectedMbti)} disabled={waiting}>
+          <button type="button" onClick={handleConnect} disabled={waiting}>
             {waiting ? (
               <>
                 <Spinner />

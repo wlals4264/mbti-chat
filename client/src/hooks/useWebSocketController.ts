@@ -4,7 +4,7 @@ interface UseWebSocketController {
   ws: WebSocket | null;
   waiting: boolean;
   chatOpen: boolean;
-  connectWebSocket: (selectedMbti: string) => void;
+  connectWebSocket: () => void;
   roomId: string | null;
 }
 
@@ -15,6 +15,11 @@ const useWebSocketController = (): UseWebSocketController => {
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
   const connectWebSocket = useCallback(() => {
+    if (ws) {
+      alert('이미 연결되어 있습니다.');
+      return;
+    }
+
     const socket = new WebSocket('ws://localhost:5001');
 
     socket.onopen = () => {

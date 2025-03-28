@@ -13,7 +13,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, sendMess
 
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
-  // 웹소켓 메시지 수신
   useEffect(() => {
     if (!ws) return;
 
