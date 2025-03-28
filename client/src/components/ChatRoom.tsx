@@ -65,12 +65,18 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, sendMess
     <>
       <div className="chat-container">
         <div className="chat-box" ref={chatBoxRef}>
-          {messages.map((msg, index) => (
-            <li key={index} className={msg.isOwnMessage ? 'my-message' : 'opponent-message'}>
-              <span>{msg.mbti}</span>
-              <p>{msg.text}</p>
-            </li>
-          ))}
+          {messages.map((msg, index) =>
+            msg.mbti === 'System' ? (
+              <div key={index} className="system-message">
+                {msg.text}
+              </div>
+            ) : (
+              <li key={index} className={msg.isOwnMessage ? 'my-message' : 'opponent-message'}>
+                <span>{msg.mbti}</span>
+                <p>{msg.text}</p>
+              </li>
+            )
+          )}
         </div>
         <div className="chat-input">
           <input

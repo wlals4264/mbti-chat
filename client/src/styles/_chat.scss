@@ -53,6 +53,12 @@
   padding: 10px;
 }
 
+.system-message {
+  text-align: center;
+  margin: 4px 0;
+  @include messageMeta();
+}
+
 .my-message {
   align-self: flex-end;
   max-width: 60%;
