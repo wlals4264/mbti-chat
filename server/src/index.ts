@@ -38,6 +38,14 @@ wss.on('connection', (ws: ExtendedWebSocket) => {
         ws.send(JSON.stringify({ type: 'matched', roomId }));
         pair.send(JSON.stringify({ type: 'matched', roomId }));
 
+        // 🎉 매칭 완료 후 환영 메시지 전송
+        const welcomeMessage = JSON.stringify({
+          type: 'message',
+          text: 'MBTI 채팅이 시작되었습니다. 대화를 나눠보세요!',
+          mbti: 'System',
+          isOwnMessage: false,
+        });
+
         // 1시간 후 자동으로 방 삭제
         setTimeout(() => {
           if (rooms.has(roomId)) {
