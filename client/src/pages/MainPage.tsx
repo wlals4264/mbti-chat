@@ -8,7 +8,7 @@ import { useCloseChat } from '../hooks/useCloseChat';
 import { useValidateMbti } from '../hooks/useValidateMbti';
 
 const MainPage: React.FC = () => {
-  const { ws, roomId, waiting, chatOpen, connectWebSocket } = useWebSocketController();
+  const { ws, roomId, isLoading, chatOpen, connectWebSocket } = useWebSocketController();
   const closeChat = useCloseChat(ws, roomId);
   const sendMessage = useSendMessage(ws, roomId);
   const validateMbti = useValidateMbti();
@@ -37,8 +37,8 @@ const MainPage: React.FC = () => {
               </option>
             ))}
           </select>
-          <button type="button" onClick={handleConnect} disabled={waiting}>
-            {waiting ? (
+          <button type="button" onClick={handleConnect} disabled={isLoading}>
+            {isLoading ? (
               <>
                 <Spinner />
                 매칭 중...
