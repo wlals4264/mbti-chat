@@ -49,6 +49,10 @@ const useWebSocketController = (): UseWebSocketController => {
         }
       };
 
+      socket.onerror = () => {
+        console.log('🥲 WebSocket Error');
+      };
+
       socket.onclose = () => {
         console.log('🚪 WebSocket 연결 종료');
         setWs(null);
