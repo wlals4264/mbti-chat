@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 
 interface UseWebSocketController {
   ws: WebSocket | null;
-  waiting: boolean;
+  isLoading: boolean;
   chatOpen: boolean;
   connectWebSocket: () => void;
   roomId: string | null;
@@ -11,7 +11,7 @@ interface UseWebSocketController {
 const useWebSocketController = (): UseWebSocketController => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
-  const [waiting, setWaiting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
   const connectWebSocket = useCallback(() => {
@@ -31,13 +31,13 @@ const useWebSocketController = (): UseWebSocketController => {
       const data = JSON.parse(event.data);
 
       if (data.type === 'waiting') {
-        setWaiting(true);
+        setIsLoading(true);
         console.log('⏳ 대기열에 추가됨...');
       } else if (data.type === 'matched') {
         console.log(`🎉 매칭 완료! roomId: ${data.roomId}`);
         setRoomId(data.roomId);
         setChatOpen(true);
-        setWaiting(false);
+        setIsLoading(false);
       }
     };
 
@@ -50,7 +50,7 @@ const useWebSocketController = (): UseWebSocketController => {
       setWs(null);
       setChatOpen(false);
       setRoomId(null);
-      setWaiting(false);
+      setIsLoading(false);
     };
 
     setWs(socket);
@@ -58,7 +58,7 @@ const useWebSocketController = (): UseWebSocketController => {
 
   return {
     ws,
-    waiting,
+    isLoading,
     chatOpen,
     connectWebSocket,
     roomId,
