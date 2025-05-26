@@ -20,7 +20,8 @@ const useWebSocketController = (): UseWebSocketController => {
       return;
     }
 
-    const socket = new WebSocket('ws://localhost:5001');
+    // const socket = new WebSocket('ws://localhost:5001'); // 로컬
+    const socket = new WebSocket('wss://mbti-chat.onrender.com'); // 서버
 
     socket.onopen = () => {
       console.log('✅ WebSocket 연결됨');
