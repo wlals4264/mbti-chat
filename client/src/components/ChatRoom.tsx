@@ -36,7 +36,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ ws, onClose, selectedMbti, sendMess
     return () => {
       ws.removeEventListener('message', handleMessage);
     };
-  }, [ws]);
+  }, [ws, messages, onClose]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (event.nativeEvent.isComposing) {

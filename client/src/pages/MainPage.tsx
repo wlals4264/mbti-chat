@@ -6,6 +6,7 @@ import useWebSocketController from '../hooks/useWebSocketController';
 import useSendMessage from '../hooks/useSendMessage';
 import { useCloseChat } from '../hooks/useCloseChat';
 import { useValidateMbti } from '../hooks/useValidateMbti';
+import '../styles/_global.scss';
 
 const MainPage: React.FC = () => {
   const { ws, roomId, isLoading, chatOpen, connectWebSocket } = useWebSocketController();

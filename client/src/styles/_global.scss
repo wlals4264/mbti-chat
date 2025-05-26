@@ -8,23 +8,39 @@ body {
   font-family: v.$font-family;
   background-color: v.$bg-color;
   margin: 0;
-  padding: 0;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100dvh;
+
+  > h1 {
+    font-size: 2.5rem;
+    color: v.$primary-color;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1rem;
+    color: v.$text-color;
+    font-weight: 900;
+    text-align: center;
+  }
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: v.$primary-color;
-  margin-bottom: 20px;
-}
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 10px;
 
-p {
-  font-size: 1rem;
-  color: v.$text-color;
-  font-weight: 900;
-  text-align: center;
+    > h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+  }
 }
